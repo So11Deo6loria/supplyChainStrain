@@ -14,9 +14,12 @@ def crc16(data):
     return crc & 0xFFFF
 
 def send_file(serial_port, file_path, send_log_line):
-    send_log_line("Test")
+    send_log_line(f"Restart IoT board in the next 3 seconds...")
+    time.sleep(3)
+    send_log_line(f"Preparing file {file_path}...")
     with open(file_path, 'rb') as file:
         with serial.Serial(serial_port, baudrate=115200, timeout=1) as ser:
+            send_log_line(f"Writing secret key...")
             ser.write(b'password')  # Start XModem-1K transfer with NAK
 
             response = None

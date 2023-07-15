@@ -46,7 +46,7 @@ nav ul li a {
 
 .nav-right img {
   height: 40px;
-  width: 100px;
+  width: 120px;
 }
 
 main {
@@ -184,4 +184,10 @@ ul.credits-list {
 
 .social-links a i {
   font-size: 24px;
+}
+
+footer {
+  text-align: center;
+  background-color: #444;
+  padding: 10px 0;
 }
