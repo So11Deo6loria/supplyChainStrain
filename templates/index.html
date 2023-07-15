@@ -7,8 +7,11 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.2.0/socket.io.js"></script>
     <script type="text/javascript">
         var socket = io.connect('http://' + document.domain + ':' + location.port);
-
         function flashFirmware() {
+            // Disable the button while the firmware flashing is in progress
+            var flashButton = document.getElementById('flash-button');
+            flashButton.disabled = true;
+
             socket.emit('flash_firmware');
         }
 
@@ -16,6 +19,22 @@
             var outputBox = document.getElementById('output-box');
             outputBox.innerText += data + '\n';
             outputBox.scrollTop = outputBox.scrollHeight;
+        });
+
+        socket.on('firmware_flash_ready', function() {
+            // Update the button class to set the color to red during flashing
+            var flashButton = document.getElementById('flash-button');            
+            flashButton.disabled = true;
+            flashButton.classList.add('in-progress');
+            flashButton.classList.remove('ready');
+        });
+
+        socket.on('firmware_flash_complete', function() {
+            // Re-enable the button and set the color back to green when the firmware flashing is complete
+            var flashButton = document.getElementById('flash-button');
+            flashButton.disabled = false;
+            flashButton.classList.add('ready');
+            flashButton.classList.remove('in-progress');
         });
 
         socket.on('firmware_flash_result', function(data) {
@@ -46,7 +65,7 @@
                     <h2>Flash</h2>
                 </div>
                 <div class="button-container">
-                    <button class="flash-button-big" onclick="flashFirmware()">Flash Firmware</button>
+                    <button id="flash-button" class="flash-button-big" onclick="flashFirmware()">Flash Firmware</button>
                 </div>
             </div>
         </div>

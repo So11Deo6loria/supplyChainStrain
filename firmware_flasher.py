@@ -14,20 +14,43 @@ def crc16(data):
     return crc & 0xFFFF
 
 def send_file(serial_port, file_path, send_log_line):
-    send_log_line(f"Restart IoT board in the next 3 seconds...")
-    time.sleep(3)
+    def send_password():
+        ser.write(b'password')
+    
+    xmodemReady = False
     send_log_line(f"Preparing file {file_path}...")
+    send_log_line(f"Restart IoT board in the next 3 seconds...")
     with open(file_path, 'rb') as file:
         with serial.Serial(serial_port, baudrate=115200, timeout=1) as ser:
-            send_log_line(f"Writing secret key...")
-            ser.write(b'password')  # Start XModem-1K transfer with NAK
+            start_time = time.time()
+            send_log_line(f"Attempting to write secret key...")
+            send_password()
+            while( ( not xmodemReady ) and ( time.time() - start_time < 3 ) ):                
+                for i in range(10): 
+                    response = ser.read(1)
+                    print(repr(response))
+                    if( response == b'*' ):
+                        xmodemReady = True
+                    time.sleep(0.01)
 
-            response = None
-            while response != b'C':
-                response = ser.read(1)
-                time.sleep(0.25)
-
-            send_log_line('Transmitting Firmware...')
+            if( xmodemReady ):
+                response = None
+                start_time = time.time()
+                targetReady = False
+                send_log_line("Waiting for XModem1K Ready...")
+                while( ( not targetReady ) and ( time.time() - start_time < 15 ) ):
+                    response = ser.read(1)
+                    print(repr(response))
+                    if( response == b'C' ):
+                        targetReady = True
+                    time.sleep(0.1)
+                
+                if( targetReady ):
+                    send_log_line('Transmitting Firmware...')
+                else:
+                    return 'XModem1K Ready Timed Out...'    
+            else:
+                return 'Password Prompt Timed Out...'
 
             packet_number = 1
             while True:
@@ -58,8 +81,6 @@ def send_file(serial_port, file_path, send_log_line):
             response = ser.read(1)
 
             if response == b'\x06':
-                send_log_line('File transfer successful.')
                 return 'File transfer successful.'
             else:
-                send_log_line('File transfer failed.')
                 return 'File transfer failed.'

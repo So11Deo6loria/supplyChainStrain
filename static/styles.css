@@ -91,18 +91,27 @@ main {
 }
 
 .flash-button-big {
-  background-color: #8b0000; /* Retro dark red color */
+  background-color: green; /* Retro dark red color */
   color: #fff;
   padding: 30px 60px; /* Increased padding to make the button bigger */
   font-size: 24px;
-  border: 5px solid #8b0000; /* Retro border color */
-  box-shadow: 0 0 10px #8b0000; /* Retro box shadow */
+  border: 5px solid green; /* Retro border color */
+  box-shadow: 0 0 10px green; /* Retro box shadow */
   cursor: pointer;
   outline: none;
 }
 
-.flash-button-big:hover {
-  background-color: #b22222; /* Retro red color */
+.flash-button-big.ready {
+  background-color: green; /* Set the background color to green when ready */
+  border: 5px solid green; /* Retro border color */
+  box-shadow: 0 0 10px green; /* Retro box shadow */
+}
+
+.flash-button-big.in-progress {
+  background-color: red; /* Set the background color to red during the firmware flashing process */
+  border: 5px solid red;
+  box-shadow: 0 0 10px red;
+
 }
 
 .container {
@@ -152,22 +161,21 @@ h2 {
 ul.credits-list {
   list-style: none;
   padding: 0;
+  margin: 0;
 }
 
 .credit-info {
-  margin-bottom: 20px;
+  margin-bottom: 1px;
   display: flex;
   align-items: center;
   border: 5px solid #444; /* Retro border color */
   box-shadow: 0 0 10px #444; /* Retro box shadow */
   border-radius: 5px;
-  padding: 10px;
+  padding: 0px;
 }
 
 .credit-info h3 {
-  margin-top: 0;
-  margin-bottom: 0;
-  margin-right: 10px;
+  margin: 0px 0;
 }
 
 .social-links {
