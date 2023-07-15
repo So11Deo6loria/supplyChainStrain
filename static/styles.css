@@ -1,0 +1,187 @@
+body {
+  font-family: "Courier New", monospace;
+  background-color: #000;
+  color: #fff;
+  margin: 0;
+  padding: 0;
+}
+
+header {
+  background-color: #444;
+  padding: 10px;
+  color: #fff;
+}
+
+nav {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+nav ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+nav ul li {
+  display: inline-block;
+  margin-right: 20px;
+}
+
+nav ul li a {
+  color: #fff;
+  text-decoration: none;
+  font-size: 18px;
+}
+
+.nav-center {
+  flex: 1;
+  text-align: center;
+}
+
+.nav-center h1 {
+  margin: 0;
+}
+
+.nav-right img {
+  height: 40px;
+  width: 100px;
+}
+
+main {
+  padding: 20px;
+  background-color: #333;
+}
+
+.status-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 20px;
+}
+
+.status {
+  margin-right: 10px;
+}
+
+.status-circle {
+  width: 120px;
+  height: 120px;
+  border-radius: 50%;
+  background-color: #1e90ff; /* Retro blue color */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 5px solid #1e90ff; /* Retro border color */
+  box-shadow: 0 0 10px #1e90ff; /* Retro box shadow */
+}
+
+.status-circle p {
+  margin: 0;
+  color: white;
+  font-size: 24px;
+}
+
+.button-container {
+  display: flex;
+  align-items: center;
+  justify-content: center; /* Center the button horizontally and vertically */
+  flex-direction: column; /* Center items in a column */
+}
+
+.flash-button-big {
+  background-color: #8b0000; /* Retro dark red color */
+  color: #fff;
+  padding: 30px 60px; /* Increased padding to make the button bigger */
+  font-size: 24px;
+  border: 5px solid #8b0000; /* Retro border color */
+  box-shadow: 0 0 10px #8b0000; /* Retro box shadow */
+  cursor: pointer;
+  outline: none;
+}
+
+.flash-button-big:hover {
+  background-color: #b22222; /* Retro red color */
+}
+
+.container {
+  max-width: 800px;
+  margin: 0 auto; /* Center the container horizontally */
+}
+
+h2 {
+  margin-top: 0;
+  text-align: left;
+  font-size: 24px; /* Increase font size for h2 headers */
+}
+
+.box {
+  background-color: #444;
+  padding: 20px;
+  margin-bottom: 20px;
+  border-radius: 5px;
+  border: 5px solid #777; /* Retro border color */
+  box-shadow: 0 0 10px #777; /* Retro box shadow */
+}
+
+.box h2 {
+  background-color: #777; /* Retro title bar color */
+  color: #fff;
+  padding: 5px 10px;
+  margin-top: 0;
+  margin-bottom: 20px;
+}
+
+.output-box-container {
+  border: 5px solid black; /* Black border for terminal feel */
+  box-shadow: 0 0 10px black; /* Retro box shadow */
+  border-radius: 5px;
+  padding: 10px;
+  height: 200px; /* Fixed height for the output box */
+  overflow-y: auto; /* Add scrollbar when content overflows */
+  background-color: #000; /* Black background for terminal feel */
+}
+
+.output-box {
+  color: #00ff00; /* Green text for terminal feel */
+  font-size: 16px;
+  white-space: pre-wrap; /* Preserve line breaks in console log */
+}
+
+ul.credits-list {
+  list-style: none;
+  padding: 0;
+}
+
+.credit-info {
+  margin-bottom: 20px;
+  display: flex;
+  align-items: center;
+  border: 5px solid #444; /* Retro border color */
+  box-shadow: 0 0 10px #444; /* Retro box shadow */
+  border-radius: 5px;
+  padding: 10px;
+}
+
+.credit-info h3 {
+  margin-top: 0;
+  margin-bottom: 0;
+  margin-right: 10px;
+}
+
+.social-links {
+  display: flex;
+  align-items: center;
+  margin-left: auto;
+}
+
+.social-links a {
+  color: #fff;
+  margin-right: 10px;
+  font-size: 18px;
+}
+
+.social-links a i {
+  font-size: 24px;
+}

@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Supply Chain Strain - IoT Flasher</title>
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='styles.css') }}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.2.0/socket.io.js"></script>
+    <script type="text/javascript">
+        var socket = io.connect('http://' + document.domain + ':' + location.port);
+
+        function flashFirmware() {
+            socket.emit('flash_firmware');
+        }
+
+        socket.on('console_log', function(data) {
+            var outputBox = document.getElementById('output-box');
+            outputBox.innerText += data + '\n';
+            outputBox.scrollTop = outputBox.scrollHeight;
+        });
+
+        socket.on('firmware_flash_result', function(data) {
+            var outputBox = document.getElementById('output-box');
+            outputBox.innerText += data.result + '\n';
+            outputBox.scrollTop = outputBox.scrollHeight;
+        });
+    </script>
+</head>
+<body>
+    <header>
+        <nav>
+            <ul class="nav-left">
+                <li><a href="/">Home</a></li>
+            </ul>
+            <div class="nav-center">
+                <h1>Supply Chain Strain - IoT Flasher</h1>
+            </div>
+            <div class="nav-right">
+                <a href="https://www.protiviti.com"><img src="{{ url_for('static', filename='protiviti_logo.png') }}" alt="Protiviti Logo"></a>
+            </div>
+        </nav>
+    </header>
+    <main>
+        <div class="container">
+            <div class="box">
+                <div class="title-bar">
+                    <h2>Home</h2>
+                </div>
+                <div class="button-container">
+                    <button class="flash-button-big" onclick="flashFirmware()">Flash Firmware</button>
+                </div>
+            </div>
+        </div>
+        <div class="container">
+            <div class="box">
+                <div class="title-bar">
+                    <h2>Output</h2>
+                </div>
+                <div class="output-box-container">
+                    <pre id="output-box" class="output-box"></pre>
+                </div>
+            </div>
+        </div>
+        <div class="container">
+            <div class="box">
+                <div class="title-bar">
+                    <h2>Credits</h2>
+                </div>
+                <ul class="credits-list">
+                    <li>
+                        <div class="credit-info">
+                            <h3>Caleb Davis</h3>
+                            <div class="social-links">
+                                <a href="https://twitter.com/So11Deo6loria" target="_blank"><i class="fab fa-twitter"></i></a>
+                                <a href="https://github.com/So11Deo6loria/" target="_blank"><i class="fab fa-github"></i></a>
+                                <a href="https://www.linkedin.com/in/caleb-davis-400439100/" target="_blank"><i class="fab fa-linkedin"></i></a>
+                            </div>
+                        </div>
+                    </li>
+                    <li>
+                        <div class="credit-info">
+                            <h3>Nathan Smith</h3>
+                            <div class="social-links">
+                                <a href="https://twitter.com/Nate_Sm1th" target="_blank"><i class="fab fa-twitter"></i></a>
+                                <a href="https://github.com/nathantsmith" target="_blank"><i class="fab fa-github"></i></a>
+                                <a href="https://www.linkedin.com/in/nathan-smith-91128b72/" target="_blank"><i class="fab fa-linkedin"></i></a>
+                            </div>
+                        </div>
+                    </li>
+                    <li>
+                        <div class="credit-info">
+                            <h3>Manny Gomez</h3>
+                            <div class="social-links">
+                                <a href="https://www.linkedin.com/in/manny-gomez-48a18993/" target="_blank"><i class="fab fa-linkedin"></i></a>
+                            </div>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </main>
+</body>
+</html>
