@@ -17,9 +17,9 @@ def flash_firmware():
         emit('console_log', line)
 
     emit('firmware_flash_ready')  # Emit the event to set the button color to green
-    result = firmware_flasher.send_file('/dev/cu.usbserial-A56ULRQ8', 'firmware.bin', send_log_line)
+    result = firmware_flasher.send_file('COM3', 'firmware.bin', send_log_line)
     emit('firmware_flash_result', {'result': result})
     emit('firmware_flash_complete')  # Emit the event to reset the button color
 
 if __name__ == "__main__":
-    socketio.run(app, debug=True)
+    socketio.run(app, host='0.0.0.0', port=8080, debug=True)
