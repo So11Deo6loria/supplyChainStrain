@@ -23,21 +23,31 @@ def send_file(serial_port, file_path, send_log_line):
     with open(file_path, 'rb') as file:
         with serial.Serial(serial_port, baudrate=115200, timeout=1) as ser:
             start_time = time.time()
-            send_log_line(f"Attempting to write secret key...")
-            send_password()
-            while( ( not xmodemReady ) and ( time.time() - start_time < 3 ) ):                
-                for i in range(10): 
-                    response = ser.read(1)
-                    print(repr(response))
-                    if( response == b'*' ):
-                        xmodemReady = True
-                    time.sleep(0.01)
+            
+            # Run this code (checking if we've inputted the right passcode) within 3 seconds
+            while not xmodemReady and time.time() - start_time < 3:
+                response = ser.readline().decode('utf-8')
+                print(repr(response))
 
+                # We're going to upload the bootloader file (firmware.bin)
+                if response.startswith("Bootloader") and response.endswith("\r\n"):
+                    send_log_line(f"Attempting to write secret key...")
+                    send_password()
+                    break
+
+            while not xmodemReady and time.time() - start_time < 3:
+                response = ser.read(1)
+                print(repr(response))
+                if response == b'*':
+                    xmodemReady = True
+                time.sleep(0.01)
+
+            # If we've gotten the correct signal; we're going to start sending the information
             if( xmodemReady ):
                 response = None
                 start_time = time.time()
                 targetReady = False
-                send_log_line("Waiting for XModem1K Ready...")
+                send_log_line("Waiting for XModem1K Ready...\nThis will take ~ 2-3 mins")
                 while( ( not targetReady ) and ( time.time() - start_time < 15 ) ):
                     response = ser.read(1)
                     print(repr(response))
@@ -52,6 +62,7 @@ def send_file(serial_port, file_path, send_log_line):
             else:
                 return 'Password Prompt Timed Out...'
 
+            # Start breaking the packets down and send them
             packet_number = 1
             while True:
                 data = file.read(1024)
@@ -79,8 +90,10 @@ def send_file(serial_port, file_path, send_log_line):
 
             ser.write(b'\x04')
             response = ser.read(1)
+            # print(response)
 
-            if response == b'\x06':
+            # if the last byte is 
+            if response == b'\xfe':
                 return 'File transfer successful.'
             else:
                 return 'File transfer failed.'
